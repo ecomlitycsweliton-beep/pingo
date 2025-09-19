@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Photo Editor - Aprimore suas Fotos com IA</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-content">
+                <img src="https://i.postimg.cc/zXJF2ZDy/Generated-Image-September-18-2025-2-46-PM-1.png" alt="AI Photo Editor Logo" class="header-logo logo-light-theme">
+                <img src="https://i.postimg.cc/zXJF2ZDy/Generated-Image-September-18-2025-2-46-PM-1.png" alt="AI Photo Editor Logo" class="header-logo logo-dark-theme">
+            </div>
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.697 19.803a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5h-2.25a.75.75 0 0 1-.75-.75ZM4.303 18.697a.75.75 0 0 1-.75.75H1.5a.75.75 0 0 1 0-1.5h2.25a.75.75 0 0 1 .75.75ZM19.803 5.303a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V6.053a.75.75 0 0 1-.75-.75ZM3.197 4.303a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.947a.75.75 0 0 1-.75-.75ZM21 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 21 12ZM4.303 3.197a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3.947a.75.75 0 0 1 .75-.75ZM19.071 19.071a.75.75 0 0 1-1.06-1.06l1.59-1.59a.75.75 0 0 1 1.06 1.06l-1.59 1.59ZM5.99 5.99a.75.75 0 0 1 1.06-1.06l1.59 1.59a.75.75 0 1 1-1.06 1.06L5.99 5.99ZM18.01 5.99a.75.75 0 0 1-1.06 1.06L15.36 5.46a.75.75 0 0 1 1.06-1.06l1.59 1.59ZM5.99 18.01a.75.75 0 0 1 1.06 1.06l-1.59 1.59a.75.75 0 0 1-1.06-1.06l1.59-1.59Z"/></svg>
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.981 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.833 2.067-7.17 5.163-8.998a.75.75 0 0 1 .819.162Z" clip-rule="evenodd" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Upload Screen -->
+        <section id="upload-screen" class="screen">
+            <div class="container">
+                <h2>Envie sua foto</h2>
+                <p>Sua imagem com um clique. Qualidade profissional, zero esforço</p>
+                <div id="drop-zone" class="drop-zone">
+                    <div id="upload-instructions">
+                         <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+                        </svg>
+                        <span>Arraste e solte ou clique para enviar</span>
+                    </div>
+                    <img id="preview-image" src="#" alt="Pré-visualização da imagem" class="hidden">
+                </div>
+                <input type="file" id="file-input" accept="image/*" class="hidden">
+                
+                <div class="api-key-container">
+                    <label for="api-key-input">Chave de API do Gemini</label>
+                    <input type="password" id="api-key-input" placeholder="Cole sua chave de API aqui">
+                    <p class="api-key-info">Sua chave é necessária para usar a IA. Obtenha no <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.</p>
+                </div>
+
+                <button id="beautify-button" class="button-primary" disabled>Entra no Pingo</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pro Editor (Overlay) -->
+    <div id="pro-editor-overlay" class="pro-editor-overlay hidden">
+       <!-- Top Bar -->
+        <div class="pro-top-bar">
+            <button id="pro-back-button" class="button-secondary icon-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+                Voltar
+            </button>
+            <div class="pro-top-center">
+                <button id="undo-button" class="button-secondary icon-button" aria-label="Desfazer" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" /></svg>
+                </button>
+                <button id="redo-button" class="button-secondary icon-button" aria-label="Refazer" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3" /></svg>
+                </button>
+            </div>
+            <div class="pro-top-right">
+                <a id="pro-download-button" href="#" download="ai-photo-editor-pro.png" class="button-primary">Baixar</a>
+            </div>
+        </div>
+        
+        <!-- Main Editor Body -->
+        <div class="pro-editor-body">
+             <!-- Left Toolbar -->
+            <nav class="pro-left-toolbar">
+                <button class="tool-button active" data-tool="crop" aria-label="Cenários">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" /></svg>
+                    <span>Cenários</span>
+                </button>
+                <button class="tool-button" data-tool="edit" aria-label="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" /></svg>
+                    <span>Editar</span>
+                </button>
+                <button class="tool-button" data-tool="create" aria-label="Criar">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" /></svg>
+                    <span>Criar</span>
+                </button>
+            </nav>
+            <!-- Canvas Area -->
+            <div class="pro-canvas-area">
+               <div class="pro-image-container">
+                   <div id="pro-canvas">
+                       <img id="pro-image" src="#" alt="Imagem para edição profissional">
+                       <canvas id="erase-canvas" class="hidden"></canvas>
+                   </div>
+                   <div id="generative-loader" class="loader hidden"></div>
+               </div>
+               <div class="pro-bottom-bar">
+                    <div id="view-controls" class="view-controls">
+                        <span id="zoom-level-display">100%</span>
+                        <button id="zoom-out-button" class="button-secondary icon-button" aria-label="Diminuir zoom">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <button id="zoom-in-button" class="button-secondary icon-button" aria-label="Aumentar zoom">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" /></svg>
+                        </button>
+                        <button id="zoom-reset-button" class="button-secondary icon-button" aria-label="Redefinir zoom">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" /></svg>
+                        </button>
+                    </div>
+               </div>
+            </div>
+
+            <!-- Right Sidebar Panel -->
+           <aside id="pro-sidebar" class="pro-sidebar">
+               <div class="pro-sidebar-content">
+                    <!-- Panel: CROP/SCENARIOS -->
+                    <div class="tool-panel active" data-tool="crop">
+                        <div class="panel-section">
+                             <h3>Edição de Imagem com IA</h3>
+                             <p class="control-info">Descreva a mudança que você quer fazer na imagem. A IA irá recriar a cena com sua instrução.</p>
+                             <div id="generative-fill-controls" class="contextual-controls">
+                                <div class="prompt-container">
+                                    <textarea id="generative-fill-prompt" placeholder="Ex: coloque este lanche sobre uma..."></textarea>
+                                    <button id="add-image-reference-button" class="button-secondary icon-button" aria-label="Adicionar imagem de referência">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909a.75.75 0 0 1-1.06 0l-2.09-2.09a.75.75 0 0 0-1.06 0l-3.89 3.891Zm3.25-4.31a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" /></svg>
+                                    </button>
+                                </div>
+                                <input type="file" id="image-reference-input" class="hidden" accept="image/*">
+                                <div id="image-reference-preview" class="example-preview hidden">
+                                    <img src="#" alt="Imagem de Referência">
+                                    <button class="remove-example">&times;</button>
+                                </div>
+                                <button id="generative-fill-button" class="button-primary" disabled>Pingo</button>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: EDIT -->
+                    <div class="tool-panel" data-tool="edit">
+                        <div class="panel-section">
+                           <h3>Remover Objeto</h3>
+                           <p class="control-info">Desenhe uma seleção ao redor de um item para removê-lo.</p>
+                           <button class="brush-activate-button button-secondary" data-context="remove">Desenhar para Remover</button>
+                           <div id="remove-object-controls" class="contextual-controls hidden">
+                               <button id="apply-remove-object-button" class="button-primary" disabled>Pingo</button>
+                           </div>
+                        </div>
+                        <div class="panel-section">
+                            <h3>Correção de Imperfeições</h3>
+                            <p class="control-info">Selecione uma área e descreva a correção. Ex: derreter o queijo, arrumar o pão amassado.</p>
+                            <textarea id="imperfection-prompt-input" placeholder="Ex: Deixe este queijo mais derretido."></textarea>
+                            <div class="button-group-vertical">
+                                 <button class="brush-activate-button button-secondary" data-context="correction">Selecionar Área para Corrigir</button>
+                            </div>
+                            <div id="correction-controls" class="contextual-controls hidden">
+                                 <button id="apply-correction-button" class="button-primary" disabled>Pingo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: CREATE -->
+                    <div class="tool-panel" data-tool="create">
+                         <div class="panel-section">
+                           <h3>Criador de Post</h3>
+                           <p class="control-info">Descreva o post, adicione uma imagem de referência e a IA criará um anúncio completo.</p>
+                           <textarea id="post-prompt-input" placeholder="Ex: Super promoção de verão!"></textarea>
+                           <div class="button-group-vertical">
+                               <button id="post-example-button" class="button-secondary">Adicionar Referência</button>
+                           </div>
+                           <input type="file" id="post-example-input" class="hidden" accept="image/*">
+                           <div id="post-example-preview" class="example-preview hidden">
+                               <img src="#" alt="Exemplo de post">
+                               <button class="remove-example">&times;</button>
+                           </div>
+                            <button id="post-generate-button" class="button-primary">Pingo</button>
+                        </div>
+                    </div>
+                </div>
+           </aside>
+        </div>
+    </div>
+    
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
